@@ -1,6 +1,9 @@
 import random
+from datetime import datetime
 
 from django.db import models
+from django.utils import timezone
+
 from faker import Faker
 
 
@@ -30,9 +33,13 @@ class Teacher(models.Model):
     first_name = models.CharField(max_length=64, null=False)
     last_name = models.CharField(max_length=84, null=False)
     age = models.IntegerField(null=False, default=42)
+    email = models.EmailField(null=False, default='example@gmail.com')
+    birth_date = models.DateField(null=False, default=timezone.now)
+    phone_number = models.PositiveIntegerField(null=False, default=800700600)
 
     def __str__(self):
-        return f'Teacher - {self.first_name} - {self.last_name} - {self.age}'
+        return f'Teacher - {self.first_name} - {self.last_name} - {self.age} - {self.email}' \
+               f' - {self.birth_date} - {self.phone_number}'
 
     @classmethod
     def generate_teachers(cls, count):
@@ -50,3 +57,6 @@ class Teacher(models.Model):
 
 class Group(models.Model):
     name = models.CharField(max_length=64, null=False)
+
+    def __str__(self):
+        return f'Group - {self.name}'
