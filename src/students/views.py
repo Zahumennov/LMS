@@ -59,7 +59,7 @@ def create_student(request):
 
     if request.method == 'POST':
 
-        form = StudentCreateForm(request.POST)
+        form = StudentCreateForm(data=request.POST)
 
         if form.is_valid():
             form.save()

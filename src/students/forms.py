@@ -27,6 +27,19 @@ class StudentBaseForm(ModelForm):
 
         return phone_number
 
+    def clean_email(self):
+
+        email = self.cleaned_data['email']
+
+        if '@mail.ru' in email:
+            raise ValidationError('This domain is not allowed.')
+
+        for mail in Student.objects.values('email'):
+            if email == mail['email']:
+                raise ValidationError(f'{email} already exists.')
+
+        return email
+
     def clean(self):
         result = super().clean()
         enroll_date = self.cleaned_data['enroll_date']
