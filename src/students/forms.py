@@ -14,15 +14,15 @@ class StudentBaseForm(ModelForm):
 
     def clean_phone_number(self):
 
-        SHORT_LENGTH = 13
+        short_length = 13
 
         phone_number = self.cleaned_data['phone_number']
-        pattern = '(\(\d\d\d\)|\+\d\d\(\d\d\d\))\d\d\d\-\d\d\d\d'
+        pattern = '(\(\d\d\d\)|\+\d\d\(\d\d\d\))\d\d\d\-\d\d\d\d' # noqa
 
         if not re.match(pattern, phone_number):
             raise ValidationError('Phone number is not correct')
 
-        if len(phone_number) == SHORT_LENGTH:
+        if len(phone_number) == short_length:
             phone_number = '+38' + phone_number
 
         return phone_number
@@ -60,4 +60,3 @@ class GroupCreateForm(ModelForm):
     class Meta:
         model = Group
         fields = ['name']
-
