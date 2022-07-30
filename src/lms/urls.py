@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import include, path
 
 from students.views import get_students, get_teachers, create_student, create_teacher, get_groups, \
-    create_group
+    create_group, update_student
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -26,6 +26,7 @@ urlpatterns = [
 
     path('students/', get_students),
     path('students/create', create_student),
+    path('students/update/<int:id>', update_student),
     path('teachers/', get_teachers),
     path('teachers/create', create_teacher),
     path('groups/', get_groups),

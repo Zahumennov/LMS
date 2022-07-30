@@ -3,13 +3,13 @@ from django.http import HttpRequest, HttpResponse, HttpResponseRedirect  # noqa
 from django.shortcuts import render  # noqa
 from django.views.decorators.csrf import csrf_exempt
 
-from students.forms import StudentCreateForm, TeacherCreateForm, GroupCreateForm
+from students.forms import StudentCreateForm, TeacherCreateForm, GroupCreateForm, StudentUpdateForm
 from students.models import Student, Teacher, Group
 from students.utils import format_list
 
 
 def get_students(request):
-    students = Student.objects.all().order_by('-id')
+    students = Student.objects.all().order_by('id')
 
     params = [
         'first_name',
@@ -75,6 +75,40 @@ def create_student(request):
       {}
 
       <input type="submit" value="Create">
+    </form>
+    """
+
+    result = html_template.format(form.as_p())
+
+    return HttpResponse(result)
+
+
+@csrf_exempt
+def update_student(request, id):
+
+    student = Student.objects.get(id=id)
+
+    if request.method == 'POST':
+
+        form = StudentUpdateForm(
+            data=request.POST,
+            instance=student
+        )
+
+        if form.is_valid():
+            form.save()
+
+            return HttpResponseRedirect('/students/')
+
+    elif request.method == 'GET':
+
+        form = StudentUpdateForm(instance=student)
+
+    html_template = """
+    <form method='post'>
+      {}
+
+      <input type="submit" value="Update">
     </form>
     """
 

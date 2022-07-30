@@ -8,12 +8,20 @@ from faker import Faker
 
 
 class Student(models.Model):
+
     first_name = models.CharField(max_length=64, null=False)
     last_name = models.CharField(max_length=84, null=False)
     age = models.IntegerField(null=False, default=42)
 
+    email = models.EmailField(default=64)
+    phone_number = models.CharField(null=False, max_length=20)
+
+    enroll_date = models.DateField(default=datetime.today)
+    graduate_date = models.DateField(default=datetime.today())
+
     def __str__(self):
-        return f'Student - {self.first_name} - {self.last_name} - {self.age}'
+        return f'Student - {self.first_name} - {self.last_name} - {self.age} - {self.email} - ' \
+               f'{self.phone_number} - {self.enroll_date} - {self.graduate_date}'
 
     @classmethod
     def generate_students(cls, count):
