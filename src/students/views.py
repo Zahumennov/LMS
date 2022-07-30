@@ -9,7 +9,7 @@ from students.utils import format_list
 
 
 def get_students(request):
-    students = Student.objects.all().order_by('id')
+    students = Student.objects.all().order_by('-id')
 
     params = [
         'first_name',
@@ -49,7 +49,7 @@ def get_students(request):
     </form>
     """
 
-    result = format_list(students)
+    result = format_list(students, '/students/update/')
 
     return HttpResponse(form + result)
 
@@ -136,7 +136,7 @@ def get_teachers(request):
         if param_value:
             teachers = teachers.filter(**{param_name: param_value})
 
-    result = format_list(teachers)
+    result = format_list(teachers, '/teachers/update/')
     return HttpResponse(result)
 
 
@@ -168,6 +168,40 @@ def create_teacher(request):
     return HttpResponse(result)
 
 
+@csrf_exempt
+def update_teacher(request, id): # noqa
+
+    teacher = Teacher.objects.get(id=id)
+
+    if request.method == 'POST':
+
+        form = TeacherCreateForm(
+            data=request.POST,
+            instance=teacher
+        )
+
+        if form.is_valid():
+            form.save()
+
+            return HttpResponseRedirect('/teachers/')
+
+    elif request.method == 'GET':
+
+        form = TeacherCreateForm(instance=teacher)
+
+    html_template = """
+    <form method='post'>
+      {}
+
+      <input type="submit" value="Update">
+    </form>
+    """
+
+    result = html_template.format(form.as_p())
+
+    return HttpResponse(result)
+
+
 def get_groups(request):
     groups = Group.objects.all().order_by('-id')
 
@@ -180,7 +214,7 @@ def get_groups(request):
         if param_value:
             groups = groups.filter(**{param_name: param_value})
 
-    result = format_list(groups)
+    result = format_list(groups, '/groups/update/')
     return HttpResponse(result)
 
 
@@ -204,6 +238,39 @@ def create_group(request):
       {}
 
       <input type="submit" value="Create">
+    </form>
+    """
+
+    result = html_template.format(form)
+
+    return HttpResponse(result)
+
+
+@csrf_exempt
+def update_group(request, id): # noqa
+
+    group = Group.objects.get(id=id)
+
+    if request.method == 'POST':
+
+        form = GroupCreateForm(
+            data=request.POST,
+            instance=group
+        )
+
+        if form.is_valid():
+            form.save()
+
+            return HttpResponseRedirect('/groups/')
+
+    if request.method == 'GET':
+        form = GroupCreateForm(instance=group)
+
+    html_template = """
+    <form method='post'>
+      {}
+
+      <input type="submit" value="Update">
     </form>
     """
 
