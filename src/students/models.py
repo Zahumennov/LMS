@@ -17,7 +17,7 @@ class Student(models.Model):
     phone_number = models.CharField(null=False, max_length=20)
 
     enroll_date = models.DateField(default=datetime.today)
-    graduate_date = models.DateField(default=datetime.today())
+    graduate_date = models.DateField(default=datetime.today)
 
     def __str__(self):
         return f'Student - {self.first_name} - {self.last_name} - {self.age} - {self.email} - ' \
@@ -43,7 +43,7 @@ class Teacher(models.Model):
     age = models.IntegerField(null=False, default=42)
     email = models.EmailField(null=False, default='example@gmail.com')
     birth_date = models.DateField(null=False, default=timezone.now)
-    phone_number = models.PositiveIntegerField(null=False, default=800700600)
+    phone_number = models.CharField(null=False, max_length=16, default='+38(063)000-1111')
 
     def __str__(self):
         return f'Teacher - {self.first_name} - {self.last_name} - {self.age} - {self.email}' \
