@@ -3,7 +3,7 @@ import random
 from django.core.management.base import BaseCommand
 from faker import Faker
 
-from students.models import Teacher
+from teachers.models import Teacher
 
 
 class Command(BaseCommand):

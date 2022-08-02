@@ -1,12 +1,14 @@
-{% extends 'base.html' %}
+{% extends 'groups_base.html' %}
 
 {% block title %}
-  <h1> Create student </h1>
+  <h1> Create group </h1>
 {% endblock %}
 
 {% block main %}
+
     <form method='post'>
       {{form.as_p}}
       <input type="submit" value="Create">
     </form>
+
 {% endblock %}

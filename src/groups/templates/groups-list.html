@@ -1,0 +1,25 @@
+{% extends 'groups_base.html' %}
+
+{% block title %}
+  <h1> Search group </h1>
+{% endblock %}
+
+{% block main %}
+
+    <form method='get'/>
+      <label >Group name:</label><br>
+      <input type="text" name="name" placeholder="Enter group name"><br>
+
+      <input type="submit" value="Search">
+    </form>
+
+    {% for group in groups %}
+
+        <p>
+            <a href="{% url 'group_update' group.id %}">UPDATE</a>
+            {{group}}
+        </p>
+
+    {% endfor %}
+
+{% endblock %}

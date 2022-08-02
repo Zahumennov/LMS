@@ -1,10 +1,11 @@
-{% extends 'base.html' %}
+{% extends 'teachers_base.html' %}
 
 {% block title %}
-  <h1> Shearch student </h1>
+  <h1> Search teacher </h1>
 {% endblock %}
 
 {% block main %}
+
     <form method='get'/>
       <label >First name:</label><br>
       <input type="text" name="first_name" placeholder="Enter name"><br>
@@ -18,10 +19,14 @@
       <input type="submit" value="Search">
     </form>
 
-    {% for student in students %}
+
+    {% for teacher in teachers %}
+
         <p>
-            <a href='{% url "update" student.id %}'>UPDATE</a>
-            {{ student }}
+            <a href="{% url 'teacher_update' teacher.id %}">UPDATE</a>
+            {{teacher}}
         </p>
+
     {% endfor %}
+
 {% endblock %}

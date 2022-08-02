@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand, CommandError
 
-from students.models import Teacher
+from teachers.models import Teacher
 
 
 class Command(BaseCommand):

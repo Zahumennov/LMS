@@ -1,13 +1,15 @@
-{% extends 'base.html' %}
+{% extends 'teachers_base.html' %}
 
 {% block title %}
-  <h1> Update student </h1>
+  <h1> Update teacher </h1>
 {% endblock %}
 
 {% block main %}
+
     <form method='post'>
-      {{form.as_p}}
+      {{ form.as_p }}
 
       <input type="submit" value="Update">
     </form>
+
 {% endblock %}
