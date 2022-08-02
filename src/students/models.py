@@ -6,6 +6,8 @@ from django.utils import timezone
 
 from faker import Faker
 
+from core.validators import validate_email_for_prohibited_domain
+
 
 class Student(models.Model):
 
@@ -13,7 +15,9 @@ class Student(models.Model):
     last_name = models.CharField(max_length=84, null=False)
     age = models.IntegerField(null=False, default=42)
 
-    email = models.EmailField(default=64)
+    email = models.EmailField(default=64, validators=[
+        validate_email_for_prohibited_domain,
+    ])
     phone_number = models.CharField(null=False, max_length=20)
 
     enroll_date = models.DateField(default=datetime.today)

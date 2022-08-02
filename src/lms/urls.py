@@ -24,9 +24,7 @@ urlpatterns = [
 
     path('__debug__/', include('debug_toolbar.urls')),
 
-    path('students/', get_students),
-    path('students/create', create_student),
-    path('students/update/<int:id>', update_student),
+    path('students/', include('students.urls')),
     path('teachers/', get_teachers),
     path('teachers/create', create_teacher),
     path('teachers/update/<int:id>', update_teacher),

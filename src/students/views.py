@@ -1,6 +1,7 @@
 from django.db.models import Q
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect  # noqa
 from django.shortcuts import render  # noqa
+from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 
 from students.forms import StudentCreateForm, TeacherCreateForm, GroupCreateForm, StudentUpdateForm
@@ -8,6 +9,7 @@ from students.models import Student, Teacher, Group
 from students.utils import format_list
 
 
+@csrf_exempt
 def get_students(request):
     students = Student.objects.all().order_by('-id')
 
@@ -34,24 +36,11 @@ def get_students(request):
             else:
                 students = students.filter(**{param_name: param_value})
 
-    form = """
-    <form action="/students">
-      <label >First name:</label><br>
-      <input type="text" name="first_name" placeholder="Enter name"><br>
-
-      <label >Last name:</label><br>
-      <input type="text" name="last_name" placeholder="Enter last name"><br>
-
-      <label >Last name:</label><br>
-      <input type="number" name="age" placeholder="Enter age"><br><br>
-
-      <input type="submit" value="Submit">
-    </form>
-    """
-
-    result = format_list(students, '/students/update/')
-
-    return HttpResponse(form + result)
+    return render(
+        request=request,
+        template_name='students-list.html',
+        context={'students': students}
+    )
 
 
 @csrf_exempt
@@ -64,23 +53,17 @@ def create_student(request):
         if form.is_valid():
             form.save()
 
-            return HttpResponseRedirect('/students/')
+            return HttpResponseRedirect(reverse('list'))
 
-    elif request.method == 'GET':
+    else:
 
         form = StudentCreateForm()
 
-    html_template = """
-    <form method='post'>
-      {}
-
-      <input type="submit" value="Create">
-    </form>
-    """
-
-    result = html_template.format(form.as_p())
-
-    return HttpResponse(result)
+    return render(
+        request=request,
+        template_name='students-create.html',
+        context={'form': form}
+    )
 
 
 @csrf_exempt
@@ -98,23 +81,17 @@ def update_student(request, id): # noqa
         if form.is_valid():
             form.save()
 
-            return HttpResponseRedirect('/students/')
+            return HttpResponseRedirect(reverse('list'))
 
-    elif request.method == 'GET':
+    else:
 
-        form = StudentUpdateForm(instance=student)
+        form = StudentCreateForm(instance=student)
 
-    html_template = """
-    <form method='post'>
-      {}
-
-      <input type="submit" value="Update">
-    </form>
-    """
-
-    result = html_template.format(form.as_p())
-
-    return HttpResponse(result)
+    return render(
+        request=request,
+        template_name='students-update.html',
+        context={'form': form}
+    )
 
 
 def get_teachers(request):

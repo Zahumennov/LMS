@@ -24,13 +24,7 @@ urlpatterns = [
 
     path('__debug__/', include('debug_toolbar.urls')),
 
-    path('students/', get_students),
-    path('students/create', create_student),
-    path('students/update/<int:id>', update_student),
-    path('teachers/', get_teachers),
-    path('teachers/create', create_teacher),
-    path('teachers/update/<int:id>', update_teacher),
-    path('groups/', get_groups),
-    path('groups/create', create_group),
-    path('groups/update/<int:id>', update_group),
+    path('', get_students, name='list'),
+    path('create', create_student, name='create'),
+    path('update/<int:id>', update_student, name='update'),
 ]

@@ -31,12 +31,10 @@ class StudentBaseForm(ModelForm):
 
         email = self.cleaned_data['email']
 
-        if '@mail.ru' in email:
-            raise ValidationError('This domain is not allowed.')
+        emails = Student.objects.filter(email=email).exclude(id=self.instance.id).exists()
 
-        for mail in Student.objects.values('email'):
-            if email == mail['email']:
-                raise ValidationError(f'{email} already exists.')
+        if emails:
+            raise ValidationError(f'{email} already exists.')
 
         return email
 
