@@ -94,7 +94,7 @@ def update_student(request, id): # noqa
 
 
 @csrf_exempt
-def delete_student(request, id):
+def delete_student(request, id): # noqa
 
     student = get_object_or_404(Student, id=id)
 
