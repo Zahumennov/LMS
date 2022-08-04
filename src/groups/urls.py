@@ -16,10 +16,13 @@ Including another URLconf
 
 from django.urls import path
 
-from groups.views import get_groups, create_group, update_group
+from groups.views import get_groups, create_group, update_group, delete_group
+
+app_name = 'groups'
 
 urlpatterns = [
-    path('', get_groups, name='group_list'),
-    path('create', create_group, name='group_create'),
-    path('update/<int:id>', update_group, name='group_update'),
+    path('', get_groups, name='list'),
+    path('create', create_group, name='create'),
+    path('update/<int:id>', update_group, name='update'),
+    path('delete/<int:id>', delete_group, name='delete'),
 ]

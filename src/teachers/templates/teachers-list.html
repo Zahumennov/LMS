@@ -1,4 +1,4 @@
-{% extends 'teachers_base.html' %}
+{% extends 'base.html' %}
 
 {% block title %}
   <h1> Search teacher </h1>
@@ -20,13 +20,31 @@
     </form>
 
 
+    <table class="table table-striped">
+    <tr>
+        <th>✎</th>
+        <th>🗑</th>
+        <th>First name</th>
+        <th>Last name</th>
+        <th>Age</th>
+        <th>Email</th>
+        <th>Birth date</th>
+        <th>Phone number</th>
+    </tr>
     {% for teacher in teachers %}
-
-        <p>
-            <a href="{% url 'teacher_update' teacher.id %}">UPDATE</a>
-            {{teacher}}
-        </p>
-
+        <tr>
+            <p>
+                <td><a href='{% url "teachers:update" teacher.id %}'>UPDATE</a></td>
+                <td><a href='{% url "teachers:delete" teacher.id %}'>DELETE</a></td>
+                <td>{{ teacher.first_name }}</td>
+                <td>{{ teacher.last_name }}</td>
+                <td>{{ teacher.age }}</td>
+                <td>{{ teacher.email }}</td>
+                <td>{{ teacher.birth_date }}</td>
+                <td>{{ teacher.phone_number }}</td>
+            </p>
+        </tr>
     {% endfor %}
+    </table>
 
 {% endblock %}

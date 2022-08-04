@@ -1,4 +1,4 @@
-{% extends 'groups_base.html' %}
+{% extends 'base.html' %}
 
 {% block title %}
   <h1> Search group </h1>
@@ -8,18 +8,25 @@
 
     <form method='get'/>
       <label >Group name:</label><br>
-      <input type="text" name="name" placeholder="Enter group name"><br>
-
+      <input type="text" name="name" placeholder="Enter group name"><br><br>
       <input type="submit" value="Search">
     </form>
 
+    <table class="table table-striped">
+    <tr>
+        <th>✎</th>
+        <th>🗑</th>
+        <th>Group name</th>
+    </tr>
     {% for group in groups %}
-
-        <p>
-            <a href="{% url 'group_update' group.id %}">UPDATE</a>
-            {{group}}
-        </p>
-
+        <tr>
+            <p>
+                <td><a href='{% url "groups:update" group.id %}'>UPDATE</a></td>
+                <td><a href='{% url "groups:delete" group.id %}'>DELETE</a></td>
+                <td>{{ group.name }}</td>
+            </p>
+        </tr>
     {% endfor %}
+    </table>
 
 {% endblock %}

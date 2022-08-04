@@ -1,5 +1,5 @@
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect  # noqa
-from django.shortcuts import render  # noqa
+from django.shortcuts import render, get_object_or_404  # noqa
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 
@@ -36,7 +36,7 @@ def create_group(request):
 
         form.save()
 
-        return HttpResponseRedirect(reverse('group_list'))
+        return HttpResponseRedirect(reverse('groups:list'))
 
     else:
 
@@ -52,7 +52,7 @@ def create_group(request):
 @csrf_exempt
 def update_group(request, id): # noqa
 
-    group = Group.objects.get(id=id)
+    group = get_object_or_404(Group, id=id)
 
     if request.method == 'POST':
 
@@ -64,7 +64,7 @@ def update_group(request, id): # noqa
         if form.is_valid():
             form.save()
 
-            return HttpResponseRedirect(reverse('group_list'))
+            return HttpResponseRedirect(reverse('groups:list'))
 
     else:
         form = GroupCreateForm(instance=group)
@@ -73,4 +73,22 @@ def update_group(request, id): # noqa
         request=request,
         template_name='groups-update.html',
         context={'form': form}
+    )
+
+
+@csrf_exempt
+def delete_group(request, id): # noqa
+
+    group = get_object_or_404(Group, id=id)
+
+    if request.method == 'POST':
+
+        group.delete()
+
+        return HttpResponseRedirect(reverse('groups:list'))
+
+    return render(
+        request=request,
+        template_name='groups-delete.html',
+        context={'group': group}
     )

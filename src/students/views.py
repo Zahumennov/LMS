@@ -1,6 +1,6 @@
 from django.db.models import Q
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect  # noqa
-from django.shortcuts import render  # noqa
+from django.shortcuts import render, get_object_or_404  # noqa
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 
@@ -52,7 +52,7 @@ def create_student(request):
         if form.is_valid():
             form.save()
 
-            return HttpResponseRedirect(reverse('list'))
+            return HttpResponseRedirect(reverse('students:list'))
 
     else:
 
@@ -68,7 +68,7 @@ def create_student(request):
 @csrf_exempt
 def update_student(request, id): # noqa
 
-    student = Student.objects.get(id=id)
+    student = get_object_or_404(Student, id=id)
 
     if request.method == 'POST':
 
@@ -80,7 +80,7 @@ def update_student(request, id): # noqa
         if form.is_valid():
             form.save()
 
-            return HttpResponseRedirect(reverse('list'))
+            return HttpResponseRedirect(reverse('students:list'))
 
     else:
 
@@ -90,4 +90,20 @@ def update_student(request, id): # noqa
         request=request,
         template_name='students-update.html',
         context={'form': form}
+    )
+
+
+@csrf_exempt
+def delete_student(request, id):
+
+    student = get_object_or_404(Student, id=id)
+
+    if request.method == 'POST':
+        student.delete()
+        return HttpResponseRedirect(reverse('students:list'))
+
+    return render(
+        request=request,
+        template_name='students-delete.html',
+        context={'student': student}
     )
