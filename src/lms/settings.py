@@ -40,6 +40,8 @@ INSTALLED_APPS = [
 
     'django_extensions',
     'debug_toolbar',
+    'crispy_forms',
+    'crispy_bootstrap5',
 
     'core',
     'students',
@@ -119,6 +121,10 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+
+CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 
 # Static files (CSS, JavaScript, Images)

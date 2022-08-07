@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load crispy_forms_tags %}
 
 {% block title %}
   <h1> Search group </h1>
@@ -7,8 +8,7 @@
 {% block main %}
 
     <form method='get'/>
-      <label >Group name:</label><br>
-      <input type="text" name="name" placeholder="Enter group name"><br><br>
+      {{ form.form|crispy }}
       <input type="submit" value="Search">
     </form>
 
@@ -18,7 +18,7 @@
         <th>🗑</th>
         <th>Group name</th>
     </tr>
-    {% for group in groups %}
+    {% for group in form.qs %}
         <tr>
             <p>
                 <td><a href='{% url "groups:update" group.id %}'>UPDATE</a></td>

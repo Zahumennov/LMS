@@ -2,10 +2,10 @@ import random
 
 from django.db import models
 from django.utils import timezone
-
 from faker import Faker
 
 from core.validators import validate_phone
+from groups.models import Group
 
 
 class Teacher(models.Model):
@@ -18,10 +18,16 @@ class Teacher(models.Model):
                                     validators=[
                                         validate_phone
                                     ])
+    group = models.ForeignKey(
+        to=Group,
+        null=True,
+        on_delete=models.CASCADE,
+        related_name='teacher'
+    )
 
     def __str__(self):
         return f'Teacher - {self.first_name} - {self.last_name} - {self.age} - {self.email}' \
-               f' - {self.birth_date} - {self.phone_number}'
+               f' - {self.birth_date} - {self.phone_number} - {self.group}'
 
     @classmethod
     def generate_teachers(cls, count):

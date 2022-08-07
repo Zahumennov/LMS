@@ -6,6 +6,7 @@ from django.db import models
 from faker import Faker
 
 from core.validators import validate_email_for_prohibited_domain, validate_phone
+from groups.models import Group
 
 
 class Student(models.Model):
@@ -24,9 +25,17 @@ class Student(models.Model):
     enroll_date = models.DateField(default=datetime.today)
     graduate_date = models.DateField(default=datetime.today)
 
+    group = models.ForeignKey(
+        to=Group,
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name='students',
+    )
+
     def __str__(self):
         return f'Student - {self.first_name} - {self.last_name} - {self.age} - {self.email} - ' \
-               f'{self.phone_number} - {self.enroll_date} - {self.graduate_date}'
+               f'{self.phone_number} - {self.enroll_date} - {self.graduate_date} - ' \
+               f'{self.group}'
 
     @classmethod
     def generate_students(cls, count):

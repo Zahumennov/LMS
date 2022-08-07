@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load crispy_forms_tags %}
 
 {% block title %}
   <h1> Search teacher </h1>
@@ -7,14 +8,7 @@
 {% block main %}
 
     <form method='get'/>
-      <label >First name:</label><br>
-      <input type="text" name="first_name" placeholder="Enter name"><br>
-
-      <label >Last name:</label><br>
-      <input type="text" name="last_name" placeholder="Enter last name"><br>
-
-      <label >Age:</label><br>
-      <input type="number" name="age" placeholder="Enter age"><br><br>
+      {{ form.form|crispy}}
 
       <input type="submit" value="Search">
     </form>
@@ -30,8 +24,9 @@
         <th>Email</th>
         <th>Birth date</th>
         <th>Phone number</th>
+        <th>Group</th>
     </tr>
-    {% for teacher in teachers %}
+    {% for teacher in form.qs %}
         <tr>
             <p>
                 <td><a href='{% url "teachers:update" teacher.id %}'>UPDATE</a></td>
@@ -42,6 +37,7 @@
                 <td>{{ teacher.email }}</td>
                 <td>{{ teacher.birth_date }}</td>
                 <td>{{ teacher.phone_number }}</td>
+                <td>{{ teacher.group.name }}</td>
             </p>
         </tr>
     {% endfor %}

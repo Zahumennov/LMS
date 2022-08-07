@@ -1,48 +1,28 @@
-from django.db.models import Q
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect  # noqa
 from django.shortcuts import render, get_object_or_404  # noqa
 from django.urls import reverse
-from django.views.decorators.csrf import csrf_exempt
 
-from students.forms import StudentCreateForm, StudentUpdateForm
+from students.forms import StudentCreateForm, StudentUpdateForm, StudentFilter
 from students.models import Student
 
 
-@csrf_exempt
 def get_students(request):
     students = Student.objects.all().order_by('-id')
 
-    params = [
-        'first_name',
-        'first_name__startswith',
-        'first_name__endswith',
-        'last_name',
-        'last_name__startswith',
-        'last_name__endswith',
-        'age',
-        'age__gt'
-    ]
-
-    for param_name in params:
-        param_value = request.GET.get(param_name)
-        if param_value:
-            param_elems = param_value.split(',')
-            if param_elems:
-                or_filter = Q()
-                for param_elem in param_elems:
-                    or_filter |= Q(**{param_name: param_elem})
-                students = students.filter(or_filter)
-            else:
-                students = students.filter(**{param_name: param_value})
+    form = StudentFilter(
+        data=request.GET,
+        queryset=students
+    )
 
     return render(
         request=request,
         template_name='students-list.html',
-        context={'students': students}
+        context={
+            'form': form,
+        }
     )
 
 
-@csrf_exempt
 def create_student(request):
 
     if request.method == 'POST':
@@ -65,7 +45,6 @@ def create_student(request):
     )
 
 
-@csrf_exempt
 def update_student(request, id): # noqa
 
     student = get_object_or_404(Student, id=id)
@@ -93,7 +72,6 @@ def update_student(request, id): # noqa
     )
 
 
-@csrf_exempt
 def delete_student(request, id): # noqa
 
     student = get_object_or_404(Student, id=id)

@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load crispy_forms_tags %}
 
 {% block title %}
   <h1> Update group </h1>
@@ -7,8 +8,17 @@
 {% block main %}
 
     <form method='post'>
-      {{form.as_p}}
+      {% csrf_token %}
+      {{form|crispy}}
       <input type="submit" value="Update">
     </form>
+
+    {% for student in group.students.all %}
+        <p>
+          <a href="{% url 'students:update' student.id %}">UPDATE</a>
+          {{ student.first_name }}
+          {{ student.last_name }}
+        </p>
+    {% endfor %}
 
 {% endblock %}
