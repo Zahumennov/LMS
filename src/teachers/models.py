@@ -4,20 +4,12 @@ from django.db import models
 from django.utils import timezone
 from faker import Faker
 
-from core.validators import validate_phone
+from core.models import Person
 from groups.models import Group
 
 
-class Teacher(models.Model):
-    first_name = models.CharField(max_length=64, null=False)
-    last_name = models.CharField(max_length=84, null=False)
-    age = models.IntegerField(null=False, default=42)
-    email = models.EmailField(null=False, default='example@gmail.com')
+class Teacher(Person):
     birth_date = models.DateField(null=False, default=timezone.now)
-    phone_number = models.CharField(null=False, max_length=16, default='+38(063)000-1111',
-                                    validators=[
-                                        validate_phone
-                                    ])
     group = models.ForeignKey(
         to=Group,
         null=True,
@@ -37,7 +29,11 @@ class Teacher(models.Model):
             teacher = cls(
                 first_name=faker.first_name(),
                 last_name=faker.last_name(),
-                age=random.randint(30, 80)
+                age=random.randint(30, 80),
+                email=faker.email(),
+                phone_number=f'+38({random.randint(100, 999)}){random.randint(100, 999)}-'
+                             f'{random.randint(1000, 9999)}',
+                birth_date=faker.date(),
             )
 
             teacher.save()

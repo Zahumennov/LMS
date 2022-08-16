@@ -5,23 +5,11 @@ from django.db import models
 
 from faker import Faker
 
-from core.validators import validate_email_for_prohibited_domain, validate_phone
+from core.models import Person
 from groups.models import Group
 
 
-class Student(models.Model):
-
-    first_name = models.CharField(max_length=64, null=False)
-    last_name = models.CharField(max_length=84, null=False)
-    age = models.IntegerField(null=False, default=42)
-
-    email = models.EmailField(default=64, validators=[
-        validate_email_for_prohibited_domain,
-    ])
-    phone_number = models.CharField(null=False, max_length=20, validators=[
-        validate_phone
-    ])
-
+class Student(Person):
     enroll_date = models.DateField(default=datetime.today)
     graduate_date = models.DateField(default=datetime.today)
 

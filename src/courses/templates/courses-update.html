@@ -2,7 +2,7 @@
 {% load crispy_forms_tags %}
 
 {% block title %}
-  <h1> Update group </h1>
+  <h1> Update course </h1>
 {% endblock %}
 
 {% block main %}
@@ -12,9 +12,5 @@
       {{form|crispy}}
       <input type="submit" value="Update">
     </form>
-
-    {% with students=group.students.all %}
-        {% include 'includes/students-table.html' %}
-    {% endwith %}
 
 {% endblock %}

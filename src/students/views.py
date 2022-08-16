@@ -7,7 +7,7 @@ from students.models import Student
 
 
 def get_students(request):
-    students = Student.objects.all().order_by('-id')
+    students = Student.objects.all().select_related('group', 'headed_group').order_by('-id')
 
     form = StudentFilter(
         data=request.GET,

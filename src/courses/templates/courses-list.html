@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+  <h1> All courses </h1>
+{% endblock %}
+
+{% block main %}
+
+    <table class="table table-striped">
+    <tr>
+        <th>✎</th>
+        <th>🗑</th>
+        <th>Course code</th>
+        <th>Course name</th>
+        <th>Duration (year)</th>
+        <th>Group</th>
+    </tr>
+    {% for course in courses %}
+        <tr>
+            <p>
+                <td><a href='{% url "courses:update" course.id %}'>UPDATE</a></td>
+                <td><a href='{% url "courses:delete" course.id %}'>DELETE</a></td>
+                <td>{{ course.code }}</td>
+                <td>{{ course.name }}</td>
+                <td>{{ course.duration }}</td>
+                <td>{{ course.course_group }}</td>
+            </p>
+        </tr>
+    {% endfor %}
+    </table>
+
+{% endblock %}

@@ -8,7 +8,8 @@ class TeacherFilter(django_filters.FilterSet):
     class Meta:
         model = Teacher
 
-        fields = {
+        fields = \
+            {
             'age': ['lt', 'gt'],
             'first_name': ['exact', 'icontains'],
             'last_name': ['exact', 'startswith'],
